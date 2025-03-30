@@ -1,4 +1,8 @@
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 // clase Farkle se encarga del flujo del juego
 public class Farkle {
     // atributos
@@ -9,7 +13,10 @@ public class Farkle {
         this.numJugadores = numJugadores;
         this.puntajeSkip = puntajeSkip;
         this.puntajeWin = puntajeWin;
-        dados = new ArrayList<>();
+        // inicializo el arraylist de dados con dados con valor 0
+        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                .limit(6) // cuantos dados quiero guardar en el arraylist
+                .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
         turno = 0;
     }
     // metodo para iniciar el juego
@@ -22,7 +29,20 @@ public class Farkle {
     }
     // metodo para tirarLos6Dados
     public void tirarDados(){
-
+        // tiro los 6 dados y lo guardo en el arraylist
+        for (int i = 0; i < 6; i++){
+            Dado dado = new Dado();
+            dado.tirarDado();
+            dados.set(i,dado);
+        }
+        // utilizo clase StringBuilder
+        StringBuilder resultadoDadosStr = new StringBuilder();
+        // utilizo for each, para el valor en cada dado concatenarlo al stringbuilder
+        dados.forEach(dado -> {
+            // utilizo append para concatenar en el stringbuilder
+            resultadoDadosStr.append(dado.getValor()).append(" ");
+        });
+        System.out.println("Valores obtenidos: " + resultadoDadosStr);
     }
     // metodo para preguntar si desea parar
     public void decidirSiParar(){
