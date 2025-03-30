@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,13 +20,19 @@ public class Farkle {
                 .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
         turno = 0;
     }
-    // metodo para iniciar el juego
+    // metodo para controlar el flujo del juego
     public void comenzarJuego(){
-
+        tirarDados();
     }
     // metodo para cambiar el turno
     public void cambioDeTurno(){
-
+        // incremento el turno
+        turno++;
+        // si el turno es igual al numero de jugadores quiere decir que ya fue turno de todos, y vuelve a ser turno
+        // del jugador 1
+        if (turno == numJugadores){
+            turno = 0;
+        }
     }
     // metodo para tirarLos6Dados
     public void tirarDados(){
@@ -42,7 +49,11 @@ public class Farkle {
             // utilizo append para concatenar en el stringbuilder
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
-        System.out.println("Valores obtenidos: " + resultadoDadosStr);
+        // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
+        JOptionPane.showMessageDialog(null
+                ,"Obtuviste los valores:\n"+resultadoDadosStr
+                ,"Valores Obtenidos"
+                ,JOptionPane.INFORMATION_MESSAGE);
     }
     // metodo para preguntar si desea parar
     public void decidirSiParar(){

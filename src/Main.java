@@ -24,7 +24,7 @@ public class Main {
                     int puntajeWin = Integer.parseInt(puntajeWinStr);
                     // declaro e inicializo objeto Farkle
                     Farkle farkle = new Farkle(numJugadores,puntajeSkip,puntajeWin);
-                    farkle.tirarDados();
+                    farkle.comenzarJuego();
                     break;
                 // caso NO quiere jugar
                 case 1:
