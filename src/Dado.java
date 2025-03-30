@@ -3,21 +3,20 @@ import java.util.Random;
 
 public class Dado{
     private int valor;
-
+    // constructor dado
     public Dado(){
         valor=0;
     }
-
-    public int tirarDado(){
+    // turar dadi
+    public void tirarDado(){
         Random rand = new Random();
-        valor = rand.nextInt(6)+1;
-        return valor;
+        this.valor = rand.nextInt(6)+1;
     }
-
+    // obtener valor
     public int getValor(){
         return valor;
     }
-
+    // mostrar dado en consola
     public void mostrarDadoEnConsola(){
         System.out.println("Valor del dado: "+valor);
     }
