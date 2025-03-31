@@ -58,7 +58,7 @@ public class Farkle {
         // tiro los 6 dados y lo guardo en el arraylist
         for (int i = 0; i < 6; i++){
             Dado dado = new Dado();
-            dado.tirarDado();
+            dado.tirar();
             dados.set(i,dado);
         }
         // utilizo clase StringBuilder

@@ -2,7 +2,6 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-
         // inicializo la bandera para el control del juego
         int yesNoJugarResponse = 0;
         // ciclo while para que se pueda jugar siempre que asi se desee
