@@ -19,7 +19,6 @@ public class Dado{
         puntos=new ArrayList<>();
         inicializarPuntos();
     }
-
     //Metodo que mueve el dado a cualquier posicion mandada como parametro
     public void mover(int x, int y){
         this.xPosicion=x;
@@ -62,6 +61,9 @@ public class Dado{
         yesNoJugarResponse = JOptionPane.showConfirmDialog(null,"¿Quieres lanzar dado?:","Dado",JOptionPane.DEFAULT_OPTION);
         Random rand = new Random();
         this.valor = rand.nextInt(6)+1;
+    }
+    public void setValor(int valor){
+        this.valor=valor;
     }
     // obtener valor
     public int getValor(){
