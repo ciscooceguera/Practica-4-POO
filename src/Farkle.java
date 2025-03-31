@@ -96,7 +96,7 @@ public class Farkle {
         Jugador jugador = jugadores.get(posicion);
         int numJugador = posicion+1;
         JOptionPane.showMessageDialog(null,
-                "Ganador: jugador "+numJugador+"\nPuntaje obtenido: "+jugador.obtenerPuntaje(),
+                "Ganador: Jugador "+numJugador+"\nPuntaje obtenido: "+jugador.obtenerPuntaje(),
                 "Mensaje Victoria",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -135,7 +135,7 @@ public class Farkle {
     public void tirarDados(){
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null,
-                "Turno actual " + (turno+1),
+                "Turno actual del jugador " + (turno+1),
                 "Notificacion",
                 JOptionPane.INFORMATION_MESSAGE);
         // tiro los 6 dados y lo guardo en el arraylist

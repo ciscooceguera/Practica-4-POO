@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Dado{
     private int valor, xPosicion, yPosicion, tamañoCara, tamañoPunto;
