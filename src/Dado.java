@@ -7,7 +7,6 @@ public class Dado{
     private int valor, xPosicion, yPosicion, tamañoCara, tamañoPunto;
     private Square cara;
     private ArrayList<Circle> puntos;
-    private Circle punto1, punto2, punto3, punto4, punto5, punto6, punto7;
     // constructor dado
     public Dado(){
         valor=0;
@@ -81,11 +80,6 @@ public class Dado{
     //Getter del tamaño de la cara
     public int getTamañoCara(){
         return cara.getSize();
-    }
-
-    // mostrar dado en consola
-    public void mostrarEnConsola(){
-        System.out.println("Valor del dado: "+valor);
     }
 
     //Metodo que muestra en pantalla el dado con su respectivo valor

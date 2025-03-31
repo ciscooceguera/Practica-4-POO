@@ -38,6 +38,7 @@ public class Farkle {
         boolean hayGanador = false;
         int turnoActual = 1;
         while (!hayGanador){
+            ocultarDados();
             tirarDados();
             evaluarPosiblesDadosParaPuntuar();
             if (verificarFarkled()){
@@ -141,6 +142,9 @@ public class Farkle {
             dado.tirar();
             dados.set(i,dado);
         }
+
+        ocultarDados();
+
         // utilizo clase StringBuilder
         StringBuilder resultadoDadosStr = new StringBuilder();
         // utilizo for each, para el valor en cada dado concatenarlo al stringbuilder
@@ -148,26 +152,23 @@ public class Farkle {
             // utilizo append para concatenar en el stringbuilder
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
+
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
-//        JOptionPane.showMessageDialog(null
-//                ,"Obtuviste los valores:\n"+resultadoDadosStr
-//                ,"Valores Obtenidos"
-//                ,JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null
+                ,"Obtuviste los valores:\n"+resultadoDadosStr
+                ,"Valores Obtenidos"
+                ,JOptionPane.INFORMATION_MESSAGE);
+
         //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
-        AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion());
+        AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
         int y=dados.get(0).getYPosicion();
-        //Se itera para poder dibujar cada dado en el Canvas
-//        for(int i=0; i<dados.size(); i++){
-//            Dado dado = dados.get(i);
-//            dado.mover(x,y);
-//            dado.mostrarEnCanvas(dado.getValor());
-//            x+=dado.getTamañoCara()+10;
-//        }
+
+        //Se utiliza una lambda con forEach y Stream para poder dibujar todos los datos en pantalla
         dados.stream().
                 forEach(dado -> {
                    dado.mover(x.get(),y);
                    dado.mostrarEnCanvas(dado.getValor());
-                   x.addAndGet(dado.getTamañoCara() + 10);
+                   x.addAndGet(dado.getTamañoCara() + 10); //
                 });
     }
     // metodo para preguntar si desea seguir tirando
@@ -352,6 +353,12 @@ public class Farkle {
         jugadores.set(turno,jugador);
         puntajeTurno=0;
     }
+
+    //Metodo que incluye una lambda para ocultar todos los dados
+    public void ocultarDados(){
+        dados.stream().forEach(dado -> dado.ocultar());
+    }
+
     // eliminar del arraylist el dado seleccionado y borra el dado, retorna el # de dados que borro
     public int eliminarDado(int dadoSeleccionado){
         int valor = puntajesObtenidos.get(dadoSeleccionado);
