@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.util.Iterator;
 import java.util.OptionalInt;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -578,6 +579,7 @@ public class Farkle {
                     break;
             }
         }
+
         if (contadorJugadasPosibles == numDadosActual) {
             // mensaje en ventana de Hot Dice
             JOptionPane.showMessageDialog(null,
