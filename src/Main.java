@@ -20,6 +20,7 @@ public class Main {
             // switch
             switch(yesNoJugarResponse){
                 // caso SI quiere jugar
+
                 case 0:
                     // solicito el numero de jugadores
                     int numJugadores = 0;

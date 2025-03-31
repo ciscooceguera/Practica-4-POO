@@ -15,7 +15,7 @@ public class Farkle {
     // atributos
     private ArrayList<Jugador> jugadores;
     private ArrayList<Integer> puntajes, puntajesPosibles,puntajesObtenidos;
-    private ArrayList<Dado> dados;
+    private ArrayList<Dado> dados, dadosEliminados;
     private int turno, puntajeWin, numJugadores, puntajeTurno, numDados,numDadosActual;
     // constructor
     public Farkle(int numJugadores, int puntajeWin){
@@ -23,6 +23,7 @@ public class Farkle {
         this.puntajeWin = puntajeWin;
         // inicializo el arraylist de dados con dados con valor 0
         dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                .limit(6) // cuantos dados quiero guardar en el arraylist
                 .limit(6) // cuantos dados quiero guardar en el arraylist
                 .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
         // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
@@ -134,6 +135,7 @@ public class Farkle {
         int turnoActual = 1;
         int hotdice=0;
         while (!hayGanador){
+            ocultarDados();
             hotdice=0;
             /*if (dados.size()==2){
                 setDados();
@@ -170,6 +172,7 @@ public class Farkle {
             }else{
                 turnoActual = mostrarDadosPosiblesEnVentana();
             }
+            ocultarDados();
             //
             if (turnoActual == 2){
                 guardarPuntaje();
@@ -203,7 +206,7 @@ public class Farkle {
         Jugador jugador = jugadores.get(posicion);
         int numJugador = posicion+1;
         JOptionPane.showMessageDialog(null,
-                "Ganador: jugador "+numJugador+"\nPuntaje obtenido: "+jugador.obtenerPuntaje(),
+                "Ganador: Jugador "+numJugador+"\nPuntaje obtenido: "+jugador.obtenerPuntaje(),
                 "Mensaje Victoria",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -242,7 +245,7 @@ public class Farkle {
     public void tirarDados(){
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null,
-                "Turno actual " + (turno+1),
+                "Turno actual del jugador " + (turno+1),
                 "Notificacion",
                 JOptionPane.INFORMATION_MESSAGE);
         // tiro los 6 dados y lo guardo en el arraylist
@@ -251,6 +254,9 @@ public class Farkle {
             dado.tirar();
             dados.set(i,dado);
         }
+
+        ocultarDados();
+
         // utilizo clase StringBuilder
         StringBuilder resultadoDadosStr = new StringBuilder();
         // utilizo for each, para el valor en cada dado concatenarlo al stringbuilder
@@ -258,26 +264,29 @@ public class Farkle {
             // utilizo append para concatenar en el stringbuilder
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
+
+        // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
+        JOptionPane.showMessageDialog(null
+                ,"Obtuviste los valores:\n"+resultadoDadosStr
+                ,"Valores Obtenidos"
+                ,JOptionPane.INFORMATION_MESSAGE);
+
+
         //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null
                 ,"Obtuviste los valores:\n"+resultadoDadosStr
                ,"Valores Obtenidos"
                 ,JOptionPane.INFORMATION_MESSAGE);
         //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
-        AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion());
+        AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
         int y=dados.get(0).getYPosicion();
-        //Se itera para poder dibujar cada dado en el Canvas
-//        for(int i=0; i<dados.size(); i++){
-//            Dado dado = dados.get(i);
-//            dado.mover(x,y);
-//            dado.mostrarEnCanvas(dado.getValor());
-//            x+=dado.getTamañoCara()+10;
-//        }
+
+        //Se utiliza una lambda con forEach y Stream para poder dibujar todos los datos en pantalla
         dados.stream().
                 forEach(dado -> {
                    dado.mover(x.get(),y);
                    dado.mostrarEnCanvas(dado.getValor());
-                   x.addAndGet(dado.getTamañoCara() + 10);
+                   x.addAndGet(dado.getTamañoCara() + 10); //
                 });
     }
     // metodo para preguntar si desea seguir tirando
@@ -446,6 +455,22 @@ public class Farkle {
         jugadores.set(turno,jugador);
         puntajeTurno=0;
     }
+
+    //Metodo que incluye una lambda para ocultar todos los dados
+    public void ocultarDados(){
+        dados.stream().forEach(dado -> dado.ocultar());
+    }
+
+    //Metodo que oculta dados con un valor en especifico mediante una lambda
+    public void ocultarDadoValor(int valor){
+        dados.stream().forEach(dado ->{
+            if(dado.getValor()==valor){
+                dado.ocultar();
+                return;
+            }
+        });
+    }
+
     // eliminar del arraylist el dado seleccionado y borra el dado, retorna el # de dados que borro
     public int eliminarDado(int dadoSeleccionado){
         int valor = puntajesObtenidos.get(dadoSeleccionado);
@@ -456,6 +481,7 @@ public class Farkle {
             // cada case son las posiciones del arraylist puntajes
             case 1:
                 if (puntajes.get(0)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     puntajes.set(0,puntajes.get(0)-3);
@@ -463,6 +489,7 @@ public class Farkle {
                             &&contador2[0]++<3);
                     puntajeTurno+=1000;
                 }else{
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.remove(dadoSeleccionado);
                     dados.remove(dadoSeleccionado);
                     puntajes.set(0,puntajes.get(0)-1);
@@ -471,8 +498,10 @@ public class Farkle {
                 break;
             case 2:
                 if (puntajes.get(1)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
+                    ocultarDadoValor(valor);
                     dados.removeIf(dado -> dado.getValor()==valor
                             &&contador2[0]++<3);
                     puntajes.set(1,puntajes.get(1)-3);
@@ -481,6 +510,7 @@ public class Farkle {
                 break;
             case 3:
                 if (puntajes.get(2)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()== valor
@@ -491,6 +521,7 @@ public class Farkle {
                 break;
             case 4:
                 if (puntajes.get(3)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()==valor
@@ -501,6 +532,7 @@ public class Farkle {
                 break;
             case 5:
                 if (puntajes.get(4)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor() == valor
@@ -508,6 +540,7 @@ public class Farkle {
                     puntajes.set(4,puntajes.get(4)-3);
                     puntajeTurno+=500;
                 }else{
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.remove(dadoSeleccionado);
                     dados.remove(dadoSeleccionado);
                     puntajeTurno+=50;
@@ -516,6 +549,7 @@ public class Farkle {
                 break;
             case 6:
                 if (puntajes.get(5)>=3){
+                    ocultarDadoValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()==valor
