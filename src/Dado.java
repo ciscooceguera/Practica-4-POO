@@ -73,12 +73,11 @@ public class Dado{
     }
 
     // turar dadi
-    public void tirarDado(){
+    public void tirar(){
         int yesNoJugarResponse = 0;
         yesNoJugarResponse = JOptionPane.showConfirmDialog(null,"¿Quieres lanzar dado?:","Dado",JOptionPane.DEFAULT_OPTION);
         Random rand = new Random();
         this.valor = rand.nextInt(6)+1;
-        mostrarEnCanvas(getValor());
     }
     // obtener valor
     public int getValor(){
