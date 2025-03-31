@@ -41,22 +41,21 @@ public class Farkle {
             if (verificarFarkled()){
                 puntajeTurno=0;
                 turnoActual=2;
-                cambioDeTurno();
-            }else if (verificarHotDice()){
-                sumarHotDice();
-                puntajes.clear();
-                puntajes = new ArrayList<>(Collections.nCopies(6,0));
+      //      }else if (verificarHotDice()){
+    //            sumarHotDice();
+      //          puntajes.clear();
+       //         puntajes = new ArrayList<>(Collections.nCopies(6,0));
                 // inicializo el arraylist de dados con dados con valor 0
-                dados.clear();
-                dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
-                        .limit(6) // cuantos dados quiero guardar en el arraylist
-                        .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+       //         dados.clear();
+        //        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+           //             .limit(6) // cuantos dados quiero guardar en el arraylist
+           //             .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
                 // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
-                puntajesObtenidos.clear();
-                puntajesPosibles.clear();
-                numDadosActual = 6;
-                numDados = 6;
-                decidirSiSeguirTirando();
+         //       puntajesObtenidos.clear();
+         //       puntajesPosibles.clear();
+    //            numDadosActual = 6;
+   //             numDados = 6;
+      //          decidirSiSeguirTirando();
             }else{
                 turnoActual = mostrarDadosPosiblesEnVentana();
             }
@@ -135,7 +134,7 @@ public class Farkle {
                 "Notificacion",
                 JOptionPane.INFORMATION_MESSAGE);
         // tiro los 6 dados y lo guardo en el arraylist
-        for (int i = 0; i < numDadosActual; i++){
+        for (int i = 0; i < dados.size(); i++){
             Dado dado = new Dado();
             dado.tirar();
             dados.set(i,dado);
@@ -463,8 +462,7 @@ public class Farkle {
     // metodo para verificar si el jugador hizo un farkled, es decir; no puntuó de ninguna manera,
     // por lo que el puntaje que haya acumulado en su turno se pierde
     public boolean verificarFarkled(){
-        int contadorJugadasPosibles = 0;
-        for (int i = 0; i<numDadosActual; i++){
+        for (int i = 0; i<puntajesObtenidos.size(); i++){
             int valor = puntajesObtenidos.get(i);
             switch (valor){
                 // cada case son las posiciones del arraylist puntajes
