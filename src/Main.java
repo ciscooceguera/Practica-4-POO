@@ -27,15 +27,13 @@ public class Main {
                         String numJugadoresStr = JOptionPane.showInputDialog("Ingrese numero de jugadores: ");
                         numJugadores = Integer.parseInt(numJugadoresStr);
                     }
-                    // solicito el puntaje minimo para skipear por ronda
-                    String puntajeSkipStr = JOptionPane.showInputDialog("Ingrese puntuacion minima para pasar turno: ");
-                    int puntajeSkip = Integer.parseInt(puntajeSkipStr);
                     // solicito el puntaje para ganar
                     String puntajeWinStr = JOptionPane.showInputDialog("Ingrese el puntaje para ganar: ");
                     int puntajeWin = Integer.parseInt(puntajeWinStr);
-                    // declaro e inicializo objeto Farkle
-                    Farkle farkle = new Farkle(numJugadores,puntajeSkip,puntajeWin);
-                    farkle.comenzarJuego();
+                    // declar
+                    // o e inicializo objeto Farkle
+                    Farkle farkle = new Farkle(numJugadores,puntajeWin);
+                    farkle.controlarFlujoDelJuego();
                     break;
                 // caso NO quiere jugar
                 case 1:
