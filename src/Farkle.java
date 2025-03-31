@@ -562,7 +562,7 @@ public class Farkle {
                     break;
             }
         }
-        if (contadorJugadasPosibles == numDados) {
+        if (contadorJugadasPosibles == numDadosActual) {
             // mensaje en ventana de Hot Dice
             JOptionPane.showMessageDialog(null,
                     "Hiciste Hot Dice",
