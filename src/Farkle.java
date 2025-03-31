@@ -43,21 +43,21 @@ public class Farkle {
             if (verificarFarkled()){
                 puntajeTurno=0;
                 turnoActual=2;
-      //      }else if (verificarHotDice()){
-    //            sumarHotDice();
-      //          puntajes.clear();
-       //         puntajes = new ArrayList<>(Collections.nCopies(6,0));
-                // inicializo el arraylist de dados con dados con valor 0
-       //         dados.clear();
-        //        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
-           //             .limit(6) // cuantos dados quiero guardar en el arraylist
-           //             .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+            }else if (verificarHotDice()){
+                sumarHotDice();
+                puntajes.clear();
+                puntajes = new ArrayList<>(Collections.nCopies(6,0));
+                 //inicializo el arraylist de dados con dados con valor 0
+                dados.clear();
+                dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                       .limit(6) // cuantos dados quiero guardar en el arraylist
+                        .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
                 // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
-         //       puntajesObtenidos.clear();
-         //       puntajesPosibles.clear();
-    //            numDadosActual = 6;
-   //             numDados = 6;
-      //          decidirSiSeguirTirando();
+                puntajesObtenidos.clear();
+                puntajesPosibles.clear();
+                numDadosActual = 6;
+                numDados = 6;
+                decidirSiSeguirTirando();
             }else{
                 turnoActual = mostrarDadosPosiblesEnVentana();
             }
@@ -148,11 +148,11 @@ public class Farkle {
             // utilizo append para concatenar en el stringbuilder
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
-        // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
-//        JOptionPane.showMessageDialog(null
-//                ,"Obtuviste los valores:\n"+resultadoDadosStr
-//                ,"Valores Obtenidos"
-//                ,JOptionPane.INFORMATION_MESSAGE);
+        //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
+        JOptionPane.showMessageDialog(null
+                ,"Obtuviste los valores:\n"+resultadoDadosStr
+               ,"Valores Obtenidos"
+                ,JOptionPane.INFORMATION_MESSAGE);
         //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
         AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion());
         int y=dados.get(0).getYPosicion();
@@ -280,7 +280,7 @@ public class Farkle {
         });
         // muestro en ventana los dados puntuables
         JOptionPane.showMessageDialog(null,
-                "Puedes puntuar con los dados: \n"+dadosPosiblesStr,
+                "Puedes puntuar con los dados: "+dadosPosiblesStr,
                 "Puntuaciones posibles",
                 JOptionPane.INFORMATION_MESSAGE);
 
@@ -540,7 +540,7 @@ public class Farkle {
                         copiaPuntajesObtenidos.removeIf(n -> n == valor && contador[0]++<3);
                     }else if (puntajes.get(0) >=1){
                         contadorJugadasPosibles+=1;
-                        copiaPuntajesObtenidos.removeIf(n -> n == valor);
+                        copiaPuntajesObtenidos.remove(i);
                     }
                     break;
                 case 2:
@@ -567,7 +567,7 @@ public class Farkle {
                         copiaPuntajesObtenidos.removeIf(n -> n == valor && contador[0]++<3);
                     }else if (puntajes.get(4) >=1){
                         contadorJugadasPosibles+=1;
-                        copiaPuntajesObtenidos.removeIf(n -> n == valor);
+                        copiaPuntajesObtenidos.remove(i);
                     }
                     break;
                 case 6:
@@ -591,7 +591,7 @@ public class Farkle {
     }
     public void sumarHotDice(){
         int[] contador = {0};
-        for (int i = 0; i<numDadosActual; i++){
+        for (int i = 0; i<puntajesObtenidos.size(); i++){
             int valor = puntajesObtenidos.get(i);
             switch (valor){
                 // cada case son las posiciones del arraylist puntajes
