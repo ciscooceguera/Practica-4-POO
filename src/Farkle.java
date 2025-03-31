@@ -361,6 +361,7 @@ public class Farkle {
         dados.stream().forEach(dado -> dado.ocultar());
     }
 
+    //Metodo que oculta dados con un valor en especifico mediante una lambda
     public void ocultarDadoValor(int valor){
         dados.stream().forEach(dado ->{
             if(dado.getValor()==valor){
