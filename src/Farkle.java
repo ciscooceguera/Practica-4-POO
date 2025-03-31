@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -69,10 +69,26 @@ public class Farkle {
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
-        JOptionPane.showMessageDialog(null
-                ,"Obtuviste los valores:\n"+resultadoDadosStr
-                ,"Valores Obtenidos"
-                ,JOptionPane.INFORMATION_MESSAGE);
+//        JOptionPane.showMessageDialog(null
+//                ,"Obtuviste los valores:\n"+resultadoDadosStr
+//                ,"Valores Obtenidos"
+//                ,JOptionPane.INFORMATION_MESSAGE);
+        //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
+        AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion());
+        int y=dados.get(0).getYPosicion();
+        //Se itera para poder dibujar cada dado en el Canvas
+//        for(int i=0; i<dados.size(); i++){
+//            Dado dado = dados.get(i);
+//            dado.mover(x,y);
+//            dado.mostrarEnCanvas(dado.getValor());
+//            x+=dado.getTamañoCara()+10;
+//        }
+        dados.stream().
+                forEach(dado -> {
+                   dado.mover(x.get(),y);
+                   dado.mostrarEnCanvas(dado.getValor());
+                   x.addAndGet(dado.getTamañoCara() + 10);
+                });
     }
     // metodo para preguntar si desea seguir tirando
     public int decidirSiSeguirTirando(){

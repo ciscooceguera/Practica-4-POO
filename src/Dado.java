@@ -23,22 +23,13 @@ public class Dado{
         punto7 = new Circle();
     }
 
+    //Metodo que mueve el dado a cualquier posicion mandada como parametro
     public void mover(int x, int y){
         this.xPosicion=x;
         this.yPosicion=y;
     }
 
-    public void mostrar(){
-        punto1.makeVisible();
-        punto2.makeVisible();
-        punto3.makeVisible();
-        punto4.makeVisible();
-        punto5.makeVisible();
-        punto6.makeVisible();
-        punto7.makeVisible();
-        cara.makeVisible();
-    }
-
+    //Metodo que oculta por completo todo el dado
     public void ocultar(){
         punto1.makeInvisible();
         punto2.makeInvisible();
@@ -50,6 +41,7 @@ public class Dado{
         cara.makeInvisible();
     }
 
+    //Metodo que acomoda toda la cara del dado para que se vea bien definido y estetico.
     public void acomodar(){
         cara.changePosition(xPosicion, yPosicion);
         cara.changeSize(tamañoCara);
@@ -72,7 +64,7 @@ public class Dado{
         punto7.changePosition(xPosicion+delta*3-tamañoPunto/2, yPosicion+delta*3-tamañoPunto/2);
     }
 
-    // turar dadi
+    // turar dado
     public void tirar(){
         int yesNoJugarResponse = 0;
         yesNoJugarResponse = JOptionPane.showConfirmDialog(null,"¿Quieres lanzar dado?:","Dado",JOptionPane.DEFAULT_OPTION);
@@ -84,11 +76,27 @@ public class Dado{
         return valor;
     }
 
+    //Getter de posicion en X
+    public int getXPosicion(){
+        return xPosicion;
+    }
+
+    //Getter de posicion en Y
+    public int getYPosicion(){
+        return yPosicion;
+    }
+
+    //Getter del tamaño de la cara
+    public int getTamañoCara(){
+        return cara.getSize();
+    }
+
     // mostrar dado en consola
     public void mostrarEnConsola(){
         System.out.println("Valor del dado: "+valor);
     }
 
+    //Metodo que muestra en pantalla el dado con su respectivo valor
     public void mostrarEnCanvas(int valor){
         acomodar();
         if(valor>=1 && valor<=6){
