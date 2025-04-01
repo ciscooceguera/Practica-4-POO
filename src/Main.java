@@ -35,14 +35,21 @@ public class Main {
                     // o e inicializo objeto Farkle
                     Farkle farkle = new Farkle(numJugadores,puntajeWin);
                     farkle.controlarFlujoDelJuego();
+
+
+                    
                     break;
                 // caso NO quiere jugar
+
+           
                 case 1:
                     JOptionPane.showMessageDialog(null, "Creado por: \nFrancisco Oceguera\nSuffo Peimbert");
                     break;
                 case 2:
                     break;
             }
+
+
         }
     }
 }
