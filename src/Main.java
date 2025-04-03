@@ -10,6 +10,7 @@ public class Main {
             Object[] botones = {"Jugar","Creditos","Salir"};
             // pregunto si quiere jugar
             yesNoJugarResponse = JOptionPane.showOptionDialog(null,
+           
                     "Seleccione la opcion.",
                     "Pregunta",
                     JOptionPane.DEFAULT_OPTION,
