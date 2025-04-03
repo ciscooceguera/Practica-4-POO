@@ -271,12 +271,6 @@ public class Farkle {
                 ,"Valores Obtenidos"
                 ,JOptionPane.INFORMATION_MESSAGE);
 
-
-        //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
-        JOptionPane.showMessageDialog(null
-                ,"Obtuviste los valores:\n"+resultadoDadosStr
-               ,"Valores Obtenidos"
-                ,JOptionPane.INFORMATION_MESSAGE);
         //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
         AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
         int y=dados.get(0).getYPosicion();
