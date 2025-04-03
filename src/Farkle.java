@@ -210,6 +210,16 @@ public class Farkle {
                 "Mensaje Victoria",
                 JOptionPane.INFORMATION_MESSAGE);
     }
+
+
+    public void mostrarPuntaje(){
+        Jugador jugador = jugadores.get(turno);
+        int puntaje=jugador.obtenerPuntaje();
+        JOptionPane.showMessageDialog(null,
+                "Puntaje del turno: "+puntaje,
+                "Puntaje Turno Jugador "+(turno+1),
+                JOptionPane.INFORMATION_MESSAGE);
+    }
     // encontrar la posicion del jugador ganador
     public int encontrarGanador(){
         OptionalInt maxPuntaje = jugadores.stream()
@@ -233,6 +243,8 @@ public class Farkle {
     }
     // metodo para cambiar el turno
     public void cambioDeTurno(){
+        //Se muestra el puntaje del turno justo antes de realizar el cambio de turno
+        mostrarPuntaje();
         // incremento el turno
         turno++;
         // si el turno es igual al numero de jugadores quiere decir que ya fue turno de todos, y vuelve a ser turno
@@ -255,8 +267,6 @@ public class Farkle {
             dados.set(i,dado);
         }
 
-        ocultarDados();
-
         // utilizo clase StringBuilder
         StringBuilder resultadoDadosStr = new StringBuilder();
         // utilizo for each, para el valor en cada dado concatenarlo al stringbuilder
@@ -265,13 +275,15 @@ public class Farkle {
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
 
+
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null
                 ,"Obtuviste los valores:\n"+resultadoDadosStr
                 ,"Valores Obtenidos"
                 ,JOptionPane.INFORMATION_MESSAGE);
 
-        //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
+
+      //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
         AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
         int y=dados.get(0).getYPosicion();
 
