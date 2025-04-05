@@ -473,12 +473,11 @@ public class Farkle {
 
     //Metodo que oculta varios dados con un valor en especifico mediante una lambda
     public void ocultarDadosValor(int valor) {
-        dados.stream().
-                forEach(dado -> {
-                    if(dado.getValor()==valor){
-                        dado.ocultar();
-                    }
-                });
+        dados.stream()
+                .filter(dado -> dado.getValor()==valor)
+                .limit(3)
+                .forEach(dado -> dado.ocultar());
+
     }
 
     // eliminar del arraylist el dado seleccionado y borra el dado, retorna el # de dados que borro
