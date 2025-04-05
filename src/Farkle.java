@@ -1,9 +1,5 @@
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import java.util.Iterator;
-import java.util.OptionalInt;
+import java.util.*;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -172,11 +168,10 @@ public class Farkle {
             }else{
                 turnoActual = mostrarDadosPosiblesEnVentana();
             }
-            ocultarDados();
             //
             if (turnoActual == 2){
                 guardarPuntaje();
-
+                ocultarDados();
                 cambioDeTurno();
                 puntajes.clear();
                 puntajes = new ArrayList<>(Collections.nCopies(6,0));
@@ -192,6 +187,7 @@ public class Farkle {
                 numDadosActual = 6;
                 numDados = 6;
             }else if (turnoActual == 1){
+                ocultarDados();
                 puntajesPosibles.clear();
                 puntajesObtenidos.clear();
                 puntajes.clear();
@@ -461,14 +457,21 @@ public class Farkle {
         dados.stream().forEach(dado -> dado.ocultar());
     }
 
-    //Metodo que oculta dados con un valor en especifico mediante una lambda
+    //Metodo que oculta 1 solo dado con un valor en especifico mediante una lambda
     public void ocultarDadoValor(int valor){
-        dados.stream().forEach(dado ->{
-            if(dado.getValor()==valor){
-                dado.ocultar();
-                return;
-            }
-        });
+        Optional<Dado> dadoBusqueda = dados.stream().
+                filter(dado -> dado.getValor()==valor).
+                findFirst();
+        dadoBusqueda.get().ocultar();
+    }
+
+    //Metodo que oculta varios dados con un valor en especifico mediante una lambda
+    public void ocultarDadosValor(int valor) {
+        dados.stream()
+                .filter(dado -> dado.getValor()==valor)
+                .limit(3)
+                .forEach(dado -> dado.ocultar());
+
     }
 
     // eliminar del arraylist el dado seleccionado y borra el dado, retorna el # de dados que borro
@@ -481,7 +484,7 @@ public class Farkle {
             // cada case son las posiciones del arraylist puntajes
             case 1:
                 if (puntajes.get(0)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     puntajes.set(0,puntajes.get(0)-3);
@@ -498,10 +501,9 @@ public class Farkle {
                 break;
             case 2:
                 if (puntajes.get(1)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
-                    ocultarDadoValor(valor);
                     dados.removeIf(dado -> dado.getValor()==valor
                             &&contador2[0]++<3);
                     puntajes.set(1,puntajes.get(1)-3);
@@ -510,7 +512,7 @@ public class Farkle {
                 break;
             case 3:
                 if (puntajes.get(2)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()== valor
@@ -521,7 +523,7 @@ public class Farkle {
                 break;
             case 4:
                 if (puntajes.get(3)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()==valor
@@ -532,7 +534,7 @@ public class Farkle {
                 break;
             case 5:
                 if (puntajes.get(4)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor() == valor
@@ -549,7 +551,7 @@ public class Farkle {
                 break;
             case 6:
                 if (puntajes.get(5)>=3){
-                    ocultarDadoValor(valor);
+                    ocultarDadosValor(valor);
                     puntajesObtenidos.removeIf(n-> n == valor
                             &&contador[0]++<3);
                     dados.removeIf(dado -> dado.getValor()==valor
@@ -820,10 +822,10 @@ public class Farkle {
                     break;
                 case 6:
                     if (puntajes.get(5)>=3){
-                        if (puntajes.get(5)>=3){
-                            puntajesObtenidos.removeIf(n-> n.equals(valor)
-                                    &&contador[0]++<3);
-                            puntajeTurno+=600;
+                        if (puntajes.get(5)>=3) {
+                            puntajesObtenidos.removeIf(n -> n.equals(valor)
+                                    && contador[0]++ < 3);
+                            puntajeTurno += 600;
                         }
                     }
                     break;
