@@ -12,7 +12,7 @@ public class Farkle {
     private ArrayList<Jugador> jugadores;
     private ArrayList<Integer> puntajes, puntajesPosibles,puntajesObtenidos;
     private ArrayList<Dado> dados, dadosEliminados;
-    private int turno, puntajeWin, numJugadores, puntajeTurno, numDados,numDadosActual;
+    private int turno, puntajeWin, numJugadores, puntajeTurno, numDados,numDadosActual, posicionGanador;
     // constructor
     public Farkle(int numJugadores, int puntajeWin){
         this.numJugadores = numJugadores;
@@ -194,7 +194,7 @@ public class Farkle {
                 puntajes = new ArrayList<>(Collections.nCopies(6,0));
             }
         }
-        int posicionGanador = encontrarGanador();
+        posicionGanador = encontrarGanador();
         mostrarGanador(posicionGanador);
     }
     // muestra ganador
