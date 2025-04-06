@@ -12,7 +12,7 @@ public class Farkle {
     private ArrayList<Jugador> jugadores;
     private ArrayList<Integer> puntajes, puntajesPosibles,puntajesObtenidos;
     private ArrayList<Dado> dados, dadosEliminados;
-    private int turno, puntajeWin, numJugadores, puntajeTurno, numDados,numDadosActual;
+    private int turno, puntajeWin, numJugadores, puntajeTurno, numDados,numDadosActual, posicionGanador;
     // constructor
     public Farkle(int numJugadores, int puntajeWin){
         this.numJugadores = numJugadores;
@@ -194,7 +194,7 @@ public class Farkle {
                 puntajes = new ArrayList<>(Collections.nCopies(6,0));
             }
         }
-        int posicionGanador = encontrarGanador();
+        posicionGanador = encontrarGanador();
         mostrarGanador(posicionGanador);
     }
     // muestra ganador
@@ -223,6 +223,7 @@ public class Farkle {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+
     // encontrar la posicion del jugador ganador
     public int encontrarGanador(){
         OptionalInt maxPuntaje = jugadores.stream()
@@ -247,6 +248,7 @@ public class Farkle {
     // metodo para cambiar el turno
     public void cambioDeTurno(){
         //Se muestra el puntaje del turno justo antes de realizar el cambio de turno
+
         // incremento el turno
         turno++;
         // si el turno es igual al numero de jugadores quiere decir que ya fue turno de todos, y vuelve a ser turno
@@ -269,6 +271,8 @@ public class Farkle {
             dados.set(i,dado);
         }
 
+        ocultarDados();
+
         // utilizo clase StringBuilder
         StringBuilder resultadoDadosStr = new StringBuilder();
         // utilizo for each, para el valor en cada dado concatenarlo al stringbuilder
@@ -277,7 +281,6 @@ public class Farkle {
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
 
-
         // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null
                 ,"Obtuviste los valores:\n"+resultadoDadosStr
@@ -285,7 +288,12 @@ public class Farkle {
                 ,JOptionPane.INFORMATION_MESSAGE);
 
 
-      //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
+        //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
+        JOptionPane.showMessageDialog(null
+                ,"Obtuviste los valores:\n"+resultadoDadosStr
+               ,"Valores Obtenidos"
+                ,JOptionPane.INFORMATION_MESSAGE);
+        //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
         AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
         int y=dados.get(0).getYPosicion();
 
@@ -844,6 +852,71 @@ public class Farkle {
                         }
                     }
                     break;
+            }
+        }
+    }
+    // en caso de que alguien ya gano todos pueden tirar una ultima vez
+    public void ultimaOportunidadWin(){
+        int turnoActual = 1;
+        for (int i = 0; i< numJugadores;i++) {
+            if (turno != posicionGanador) {
+                int seguirTirando = 1;
+                while (seguirTirando == 1) {
+                    ocultarDados();
+                    int hotdice = 0;
+                    tirarDados();
+                    evaluarPosiblesDadosParaPuntuar();
+                    if (verificarFarkled()) {
+                        puntajeTurno = 0;
+                        turnoActual = 2;
+                    } else if (verificarHotDice()) {
+                        hotdice = 1;
+                        sumarHotDice();
+                        System.out.println("Puntaje: " + puntajeTurno);
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                        //inicializo el arraylist de dados con dados con valor 0
+                        dados.clear();
+                        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                                .limit(6) // cuantos dados quiero guardar en el arraylist
+                                .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+                        // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
+                        puntajesObtenidos.clear();
+                        puntajesPosibles.clear();
+                        numDadosActual = 6;
+                        numDados = 6;
+                        seguirTirando = decidirSiSeguirTirando();
+                        if (seguirTirando == 0) {
+                            turnoActual = 2;
+                        }
+                    } else {
+                        turnoActual = mostrarDadosPosiblesEnVentana();
+                    }
+                    // si ya no quiso tirar
+                    if (turnoActual == 2) {
+                        guardarPuntaje();
+                        ocultarDados();
+                        cambioDeTurno();
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                        // inicializo el arraylist de dados con dados con valor 0
+                        dados.clear();
+                        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                                .limit(6) // cuantos dados quiero guardar en el arraylist
+                                .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+                        // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
+                        puntajesObtenidos.clear();
+                        puntajesPosibles.clear();
+                        numDadosActual = 6;
+                        numDados = 6;
+                    } else if (turnoActual == 1) {
+                        ocultarDados();
+                        puntajesPosibles.clear();
+                        puntajesObtenidos.clear();
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                    }
+                }
             }
         }
     }
