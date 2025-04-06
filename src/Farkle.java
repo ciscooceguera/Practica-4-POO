@@ -832,4 +832,69 @@ public class Farkle {
             }
         }
     }
+    // en caso de que alguien ya gano todos pueden tirar una ultima vez
+    public void ultimaOportunidadWin(){
+        int turnoActual = 1;
+        for (int i = 0; i< numJugadores;i++) {
+            if (turno != posicionGanador) {
+                int seguirTirando = 1;
+                while (seguirTirando == 1) {
+                    ocultarDados();
+                    int hotdice = 0;
+                    tirarDados();
+                    evaluarPosiblesDadosParaPuntuar();
+                    if (verificarFarkled()) {
+                        puntajeTurno = 0;
+                        turnoActual = 2;
+                    } else if (verificarHotDice()) {
+                        hotdice = 1;
+                        sumarHotDice();
+                        System.out.println("Puntaje: " + puntajeTurno);
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                        //inicializo el arraylist de dados con dados con valor 0
+                        dados.clear();
+                        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                                .limit(6) // cuantos dados quiero guardar en el arraylist
+                                .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+                        // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
+                        puntajesObtenidos.clear();
+                        puntajesPosibles.clear();
+                        numDadosActual = 6;
+                        numDados = 6;
+                        seguirTirando = decidirSiSeguirTirando();
+                        if (seguirTirando == 0) {
+                            turnoActual = 2;
+                        }
+                    } else {
+                        turnoActual = mostrarDadosPosiblesEnVentana();
+                    }
+                    // si ya no quiso tirar
+                    if (turnoActual == 2) {
+                        guardarPuntaje();
+                        ocultarDados();
+                        cambioDeTurno();
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                        // inicializo el arraylist de dados con dados con valor 0
+                        dados.clear();
+                        dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
+                                .limit(6) // cuantos dados quiero guardar en el arraylist
+                                .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
+                        // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
+                        puntajesObtenidos.clear();
+                        puntajesPosibles.clear();
+                        numDadosActual = 6;
+                        numDados = 6;
+                    } else if (turnoActual == 1) {
+                        ocultarDados();
+                        puntajesPosibles.clear();
+                        puntajesObtenidos.clear();
+                        puntajes.clear();
+                        puntajes = new ArrayList<>(Collections.nCopies(6, 0));
+                    }
+                }
+            }
+        }
+    }
 }
