@@ -195,6 +195,13 @@ public class Farkle {
             }
         }
         posicionGanador = encontrarGanador();
+        int winner = posicionGanador+1;
+        JOptionPane.showMessageDialog(null,
+                "El jugador "+winner+"ha ganado.\n Todos tienen una ultima oportunidad para remontar",
+                "Ultima Oportunidad ",
+                JOptionPane.INFORMATION_MESSAGE);
+        ultimaOportunidadWin();
+        posicionGanador = encontrarGanador();
         mostrarGanador(posicionGanador);
     }
     // muestra ganador
@@ -280,13 +287,6 @@ public class Farkle {
             // utilizo append para concatenar en el stringbuilder
             resultadoDadosStr.append(dado.getValor()).append(" ");
         });
-
-        // Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
-        JOptionPane.showMessageDialog(null
-                ,"Obtuviste los valores:\n"+resultadoDadosStr
-                ,"Valores Obtenidos"
-                ,JOptionPane.INFORMATION_MESSAGE);
-
 
         //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null
@@ -860,17 +860,14 @@ public class Farkle {
         int turnoActual = 1;
         for (int i = 0; i< numJugadores;i++) {
             if (turno != posicionGanador) {
-                int seguirTirando = 1;
-                while (seguirTirando == 1) {
+                while (turnoActual == 1) {
                     ocultarDados();
-                    int hotdice = 0;
                     tirarDados();
                     evaluarPosiblesDadosParaPuntuar();
                     if (verificarFarkled()) {
                         puntajeTurno = 0;
                         turnoActual = 2;
                     } else if (verificarHotDice()) {
-                        hotdice = 1;
                         sumarHotDice();
                         System.out.println("Puntaje: " + puntajeTurno);
                         puntajes.clear();
@@ -885,8 +882,7 @@ public class Farkle {
                         puntajesPosibles.clear();
                         numDadosActual = 6;
                         numDados = 6;
-                        seguirTirando = decidirSiSeguirTirando();
-                        if (seguirTirando == 0) {
+                        if (decidirSiSeguirTirando() == 0) {
                             turnoActual = 2;
                         }
                     } else {
