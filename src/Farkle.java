@@ -133,7 +133,7 @@ public class Farkle {
         while (!hayGanador){
             ocultarDados();
             hotdice=0;
-            /*if (dados.size()==2){
+            /*if (dados.size()==6){
                 setDados();
             }else {
                 tirarDados();
@@ -164,7 +164,7 @@ public class Farkle {
                     hayGanador = evaluarSiHayGanador();
                     turnoActual = 2;
                 }
-
+                ocultarDados();
             }else{
                 turnoActual = mostrarDadosPosiblesEnVentana();
             }
@@ -229,7 +229,19 @@ public class Farkle {
                 "Puntaje Acumulado Jugador "+(turno+1),
                 JOptionPane.INFORMATION_MESSAGE);
     }
-
+    public String puntajesToString(){
+        String mensajeDePuntajes = "";
+        for (int i = 0; i<numJugadores; i++){
+            mensajeDePuntajes += "Jugador " + (i+1) + ": " + jugadores.get(i).obtenerPuntaje() + "\n";
+        }
+        return mensajeDePuntajes;
+    }
+    public void mostrarTodosLosPuntajes(){
+        JOptionPane.showMessageDialog(null,
+                puntajesToString(),
+                "Puntajes",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
 
     // encontrar la posicion del jugador ganador
     public int encontrarGanador(){
@@ -464,6 +476,7 @@ public class Farkle {
         jugadores.set(turno,jugador);
         mostrarPuntajeTurno();
         mostrarPuntajeJugador();
+        mostrarTodosLosPuntajes();
         puntajeTurno=0;
     }
 
