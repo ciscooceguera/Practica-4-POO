@@ -33,67 +33,67 @@ public class Farkle {
     }
     public void setDados(){
 
-            if (dados.size()==1){
-                Dado dado = new Dado();
-                dado.setValor(1);
-                dados.set(0,dado);
-            }
-            if (dados.size()==2){
-                Dado dado = new Dado();
-                dado.setValor(5);
-                dados.set(0,dado);
-                dado.setValor(3);
-                dados.set(1,dado);
-            }
-            if (dados.size()==3){
-                Dado dado = new Dado();
-                dado.setValor(5);
-                dados.set(0,dado);
-                dado.setValor(1);
-                dados.set(1,dado);
-                dado.setValor(4);
-                dados.set(2,dado);
+        if (dados.size()==1){
+            Dado dado = new Dado();
+            dado.setValor(1);
+            dados.set(0,dado);
+        }
+        if (dados.size()==2){
+            Dado dado = new Dado();
+            dado.setValor(5);
+            dados.set(0,dado);
+            dado.setValor(3);
+            dados.set(1,dado);
+        }
+        if (dados.size()==3){
+            Dado dado = new Dado();
+            dado.setValor(5);
+            dados.set(0,dado);
+            dado.setValor(1);
+            dados.set(1,dado);
+            dado.setValor(4);
+            dados.set(2,dado);
 
-            }
-            if (dados.size()==4){
-                Dado dado = new Dado();
-                dado.setValor(5);
-                dados.set(0,dado);
-                dado.setValor(1);
-                dados.set(1,dado);
-                dado.setValor(1);
-                dados.set(2,dado);
-                dado.setValor(4);
-                dados.set(3,dado);
-            }
-            if (dados.size()==5){
-                Dado dado = new Dado();
-                dado.setValor(5);
-                dados.set(0,dado);
-                dado.setValor(1);
-                dados.set(1,dado);
-                dado.setValor(1);
-                dados.set(2,dado);
-                dado.setValor(1);
-                dados.set(3,dado);
-                dado.setValor(4);
-                dados.set(4,dado);
-            }
-            if (dados.size()==6){
-                Dado dado = new Dado();
-                dado.setValor(1);
-                dados.set(0,dado);
-                dado.setValor(2);
-                dados.set(1,dado);
-                dado.setValor(3);
-                dados.set(2,dado);
-                dado.setValor(4);
-                dados.set(3,dado);
-                dado.setValor(5);
-                dados.set(4,dado);
-                dado.setValor(6);
-                dados.set(5,dado);
-            }
+        }
+        if (dados.size()==4){
+            Dado dado = new Dado();
+            dado.setValor(5);
+            dados.set(0,dado);
+            dado.setValor(1);
+            dados.set(1,dado);
+            dado.setValor(1);
+            dados.set(2,dado);
+            dado.setValor(4);
+            dados.set(3,dado);
+        }
+        if (dados.size()==5){
+            Dado dado = new Dado();
+            dado.setValor(5);
+            dados.set(0,dado);
+            dado.setValor(1);
+            dados.set(1,dado);
+            dado.setValor(1);
+            dados.set(2,dado);
+            dado.setValor(1);
+            dados.set(3,dado);
+            dado.setValor(4);
+            dados.set(4,dado);
+        }
+        if (dados.size()==6){
+            Dado dado = new Dado();
+            dado.setValor(1);
+            dados.set(0,dado);
+            dado.setValor(2);
+            dados.set(1,dado);
+            dado.setValor(3);
+            dados.set(2,dado);
+            dado.setValor(4);
+            dados.set(3,dado);
+            dado.setValor(5);
+            dados.set(4,dado);
+            dado.setValor(6);
+            dados.set(5,dado);
+        }
 
 
         // utilizo clase StringBuilder
@@ -149,10 +149,10 @@ public class Farkle {
                 System.out.println("Puntaje: "+puntajeTurno);
                 puntajes.clear();
                 puntajes = new ArrayList<>(Collections.nCopies(6,0));
-                 //inicializo el arraylist de dados con dados con valor 0
+                //inicializo el arraylist de dados con dados con valor 0
                 dados.clear();
                 dados = Stream.generate(() -> new Dado()) // el constructor Dado define el valor en 0 por default
-                       .limit(6) // cuantos dados quiero guardar en el arraylist
+                        .limit(6) // cuantos dados quiero guardar en el arraylist
                         .collect(Collectors.toCollection(ArrayList::new)); // convierto a arraylist
                 // inicializo arraylist de puntajes, donde nCopies recibe 6: tamaño, y 0: valor de cada posicion
                 puntajesObtenidos.clear();
@@ -197,7 +197,7 @@ public class Farkle {
         posicionGanador = encontrarGanador();
         int winner = posicionGanador+1;
         JOptionPane.showMessageDialog(null,
-                "El jugador "+winner+"ha ganado.\n Todos tienen una ultima oportunidad para remontar",
+                "El jugador "+winner+" ha ganado.\n Todos tienen una ultima oportunidad para remontar",
                 "Ultima Oportunidad ",
                 JOptionPane.INFORMATION_MESSAGE);
         ultimaOportunidadWin();
@@ -291,7 +291,7 @@ public class Farkle {
         //Utilizo JOptionPane para mostrar en una ventana los valores obtenidos
         JOptionPane.showMessageDialog(null
                 ,"Obtuviste los valores:\n"+resultadoDadosStr
-               ,"Valores Obtenidos"
+                ,"Valores Obtenidos"
                 ,JOptionPane.INFORMATION_MESSAGE);
         //Se toma la posicion (x, y) del primer dado para poder dibujar los siguientes
         AtomicInteger x= new AtomicInteger(dados.get(0).getXPosicion()); //Dato atomico que permite cambiar su valor dentro de una Lambda
@@ -300,9 +300,9 @@ public class Farkle {
         //Se utiliza una lambda con forEach y Stream para poder dibujar todos los datos en pantalla
         dados.stream().
                 forEach(dado -> {
-                   dado.mover(x.get(),y);
-                   dado.mostrarEnCanvas(dado.getValor());
-                   x.addAndGet(dado.getTamañoCara() + 10); //
+                    dado.mover(x.get(),y);
+                    dado.mostrarEnCanvas(dado.getValor());
+                    x.addAndGet(dado.getTamañoCara() + 10); //
                 });
     }
     // metodo para preguntar si desea seguir tirando
@@ -315,14 +315,7 @@ public class Farkle {
         }
         return 1;
     }
-    // escoger con que dados se desea puntuar
-    public void escogerDados(){
 
-    }
-    // metodo para evaluar si el jugador en turno puede parar
-    public boolean evaluarSiJugadorPuedeParar(){
-        return false;
-    }
     // guardo en arraylists los valores de los dados obtenidos
     public void evaluarPosiblesDadosParaPuntuar(){
         ArrayList<Integer> valoresDados = new ArrayList<>();
